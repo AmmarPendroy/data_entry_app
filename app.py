@@ -4,9 +4,11 @@ from database import save_entry, load_entries, update_entry, delete_entry
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# --- Set Page Config First ---
+set_page_config()  # This must be the first Streamlit command!
+
 # --- Theme Toggle ---
 theme_choice = st.sidebar.selectbox("🎨 Theme", ["light", "dark", "blue"])
-set_page_config()
 apply_custom_styles(theme_choice)
 
 st.title("📝 Simple Data Entry App")
