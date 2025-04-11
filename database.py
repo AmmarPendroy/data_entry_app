@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime
 
 DATA_FILE = "data.json"
 
@@ -14,7 +15,8 @@ def save_entry(name, email, age, notes):
         "name": name,
         "email": email,
         "age": age,
-        "notes": notes
+        "notes": notes,
+        "timestamp": datetime.now().isoformat()
     }
     data = load_entries()
     data.append(entry)
