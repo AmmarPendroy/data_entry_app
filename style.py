@@ -24,6 +24,10 @@ def apply_custom_styles(theme_choice):
                     background-color: white;
                     color: black;
                 }
+                .stSelectbox select {
+                    background-color: white;
+                    color: black;
+                }
             </style>
         """, unsafe_allow_html=True)
     
@@ -46,6 +50,10 @@ def apply_custom_styles(theme_choice):
                     background-color: #3c3c3c;
                     color: white;
                 }
+                .stSelectbox select {
+                    background-color: #3c3c3c;
+                    color: white;
+                }
             </style>
         """, unsafe_allow_html=True)
 
@@ -65,6 +73,10 @@ def apply_custom_styles(theme_choice):
                     color: #006064;
                 }
                 .stTextArea textarea {
+                    background-color: #b2ebf2;
+                    color: #006064;
+                }
+                .stSelectbox select {
                     background-color: #b2ebf2;
                     color: #006064;
                 }
