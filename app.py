@@ -4,13 +4,14 @@ from database import save_entry, load_entries, update_entry, delete_entry
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# ----- Page config and styling -----
+# --- Theme Toggle ---
+theme_choice = st.sidebar.selectbox("🎨 Theme", ["light", "dark", "blue"])
 set_page_config()
-apply_custom_styles()
+apply_custom_styles(theme_choice)
 
 st.title("📝 Simple Data Entry App")
 
-# ----- Form to Add New Entry -----
+# --- Form to Add New Entry ---
 with st.form("entry_form"):
     st.subheader("➕ Add New Entry")
     name = st.text_input("Name")
@@ -24,20 +25,20 @@ with st.form("entry_form"):
         st.success("✅ Entry saved successfully!")
         st.experimental_rerun()
 
-# ----- Load & Prepare Data -----
+# --- Load & Prepare Data ---
 entries = load_entries()
 df = pd.DataFrame(entries)
 
 if not df.empty:
     df['timestamp'] = pd.to_datetime(df['timestamp'])
 
-    # ----- Search & Filter -----
+    # --- Search & Filter ---
     st.subheader("🔍 Filter Entries")
     search_query = st.text_input("Search by name or email")
     if search_query:
         df = df[df['name'].str.contains(search_query, case=False) | df['email'].str.contains(search_query, case=False)]
 
-    # ----- Dashboard Stats -----
+    # --- Dashboard Stats ---
     st.subheader("📊 Dashboard")
     col1, col2 = st.columns(2)
     with col1:
@@ -46,7 +47,7 @@ if not df.empty:
         avg_age = round(df['age'].mean(), 1)
         st.metric("Average Age", f"{avg_age} yrs")
 
-    # ----- Charts -----
+    # --- Charts ---
     st.markdown("#### 📊 Age Distribution")
     fig1, ax1 = plt.subplots()
     df['age'].value_counts().sort_index().plot(kind='bar', ax=ax1, color='skyblue')
@@ -62,12 +63,12 @@ if not df.empty:
     ax2.set_ylabel("Entries")
     st.pyplot(fig2)
 
-    # ----- Export to CSV -----
+    # --- Export to CSV ---
     st.subheader("📤 Export")
     csv = df.to_csv(index=False).encode('utf-8')
     st.download_button("⬇️ Download CSV", data=csv, file_name="entries.csv", mime="text/csv")
 
-    # ----- View and Manage Entries -----
+    # --- Edit or Delete Entries ---
     st.subheader("🛠️ Edit or Delete Entries")
     for idx, row in df.iterrows():
         with st.expander(f"{row['name']} ({row['email']})"):
@@ -88,7 +89,7 @@ if not df.empty:
                     st.warning("🗑️ Entry deleted.")
                     st.experimental_rerun()
 
-    # ----- Raw Data Table -----
+    # --- Table of Entries ---
     st.subheader("📋 All Entries")
     st.dataframe(df)
 
