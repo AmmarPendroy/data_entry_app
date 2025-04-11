@@ -25,7 +25,6 @@ with st.form("entry_form"):
     if submitted:
         save_entry(name, email, age, notes)
         st.success("✅ Entry saved successfully!")
-        st.experimental_rerun()
 
 # --- Load & Prepare Data ---
 entries = load_entries()
@@ -89,12 +88,10 @@ if not df.empty:
                 if st.button("💾 Save Changes", key=f"save_{idx}"):
                     update_entry(idx, new_name, new_email, new_age, new_notes)
                     st.success("✅ Entry updated!")
-                    st.experimental_rerun()
             with col2:
                 if st.button("🗑️ Delete", key=f"delete_{idx}"):
                     delete_entry(idx)
                     st.warning("🗑️ Entry deleted.")
-                    st.experimental_rerun()
 
     # --- Table of Entries ---
     st.subheader("📋 All Entries")
