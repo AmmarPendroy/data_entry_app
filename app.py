@@ -32,7 +32,11 @@ entries = load_entries()
 df = pd.DataFrame(entries)
 
 if not df.empty:
-    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    # Check if 'timestamp' exists, if not, we can skip or create it
+    if 'timestamp' in df.columns:
+        df['timestamp'] = pd.to_datetime(df['timestamp'])
+    else:
+        st.warning("No timestamp data available. Data may not be sorted by date.")
 
     # --- Search & Filter ---
     st.subheader("🔍 Filter Entries")
@@ -58,12 +62,13 @@ if not df.empty:
     st.pyplot(fig1)
 
     st.markdown("#### 📈 Entries Over Time")
-    df_by_date = df.groupby(df['timestamp'].dt.date).size()
-    fig2, ax2 = plt.subplots()
-    df_by_date.plot(kind='line', marker='o', ax=ax2, color='green')
-    ax2.set_xlabel("Date")
-    ax2.set_ylabel("Entries")
-    st.pyplot(fig2)
+    if 'timestamp' in df.columns:
+        df_by_date = df.groupby(df['timestamp'].dt.date).size()
+        fig2, ax2 = plt.subplots()
+        df_by_date.plot(kind='line', marker='o', ax=ax2, color='green')
+        ax2.set_xlabel("Date")
+        ax2.set_ylabel("Entries")
+        st.pyplot(fig2)
 
     # --- Export to CSV ---
     st.subheader("📤 Export")
